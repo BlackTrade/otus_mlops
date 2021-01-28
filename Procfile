@@ -1,1 +1,1 @@
-web: uvicorn fastapi2:app --reload -b 0.0.0.0:8000 
+web: uvicorn fastapi2:app --host 0.0.0.0 --port 8000 --reload
