@@ -20,9 +20,9 @@ class DataResponse(BaseModel):
     predict : float
 
 
-@app.get('/')
+@app.get("/")
 def home():
-    return  {"key" : "Prediction model"}
+    return {"200": "Welcome To Heroku"}
 
 
 @app.post('/predict', response_model=DataResponse)
