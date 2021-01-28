@@ -1,1 +1,1 @@
-web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker fastapi2:app
+web: uvicorn fastapi2:app --preload -b 0.0.0.0:8000 
