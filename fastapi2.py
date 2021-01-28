@@ -24,32 +24,32 @@ class DataResponse(BaseModel):
 def home():
     return {"200": "Welcome To Heroku"}
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    return {"item_id": item_id, "q": q}
+# @app.get("/items/{item_id}")
+# def read_item(item_id: int, q: str = None):
+#     return {"item_id": item_id, "q": q}
 
-# @app.post('/predict', response_model=DataResponse)
-# def get_predict(data: DataRequest):
-#     with open('model.pkl', 'rb') as f:
-#         clf = pickle.load(f)
+@app.post('/predict', response_model=DataResponse)
+def get_predict(data: DataRequest):
+    with open('model.pkl', 'rb') as f:
+        clf = pickle.load(f)
 
-#     data = pd.DataFrame.from_dict([data.dict()])
-#     features = data.columns.values
+    data = pd.DataFrame.from_dict([data.dict()])
+    features = data.columns.values
 
-#     data_square = data[features].applymap(lambda x: (x * x))
-#     data_square.columns = [x + '*2' for x in data[features].columns.tolist()]
+    data_square = data[features].applymap(lambda x: (x * x))
+    data_square.columns = [x + '*2' for x in data[features].columns.tolist()]
 
-#     data_prod = pd.DataFrame()
-#     for n in range(2, 3):
-#         for col in combinations(data_square.columns, n):
-#             new_col = 'features ' + '_'.join([x[-3:] for x in col])
-#             data_prod[new_col] = data_square[list(col)].prod(axis=1)
+    data_prod = pd.DataFrame()
+    for n in range(2, 3):
+        for col in combinations(data_square.columns, n):
+            new_col = 'features ' + '_'.join([x[-3:] for x in col])
+            data_prod[new_col] = data_square[list(col)].prod(axis=1)
 
-#     data = pd.concat([data_prod, data_square, data[features]], axis=1)
-#     print(data.shape)
-#     print(data.values)
+    data = pd.concat([data_prod, data_square, data[features]], axis=1)
+    print(data.shape)
+    print(data.values)
 
-#     y_score = clf.predict_proba(data.values)[:, 1]
-#     #y_score = 0.67 pass
+    y_score = clf.predict_proba(data.values)[:, 1]
+    #y_score = 0.67 pass
 
-#     return {'predict' : y_score}
+    return {'predict' : y_score}
