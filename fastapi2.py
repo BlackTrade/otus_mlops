@@ -7,8 +7,6 @@ import pickle
 import pandas as pd
 from itertools import combinations
 
-PATH = '/usr/src'
-
 app = FastAPI()
 
 class DataRequest(BaseModel):
@@ -29,7 +27,7 @@ def home():
 
 @app.post('/predict', response_model=DataResponse)
 def get_predict(data: DataRequest):
-    with open(f'{PATH}/model.pkl', 'rb') as f:
+    with open('model.pkl', 'rb') as f:
         clf = pickle.load(f)
 
     data = pd.DataFrame.from_dict([data.dict()])
