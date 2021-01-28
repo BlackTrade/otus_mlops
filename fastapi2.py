@@ -4,6 +4,7 @@ from fastapi import FastAPI
 # https://stackoverflow.com/questions/62965442/fastapi-says-missing-folder-name-as-module
 from pydantic import BaseModel, validator, Field
 import pickle
+from joblib import load
 import pandas as pd
 from itertools import combinations
 
@@ -30,8 +31,11 @@ def home():
 
 @app.post('/predict', response_model=DataResponse)
 def get_predict(data: DataRequest):
-    with open('model.pkl', 'rb') as f:
-        clf = pickle.load(f)
+    
+#    with open('model.pkl', 'rb') as f:
+#       clf = pickle.load(f)
+
+    clf = load('model.joblib') 
 
     data = pd.DataFrame.from_dict([data.dict()])
     features = data.columns.values
